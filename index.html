@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="space-y-4">
-                    <textarea id="word-input" rows="4" placeholder="請輸入您想加入的字詞...&#10;可以使用「空白」或「逗號」一次輸入多個！&#10;例如：創意 科技, 智慧，未來" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition duration-200 text-sm resize-none"></textarea>
+                    <textarea id="word-input" rows="4" placeholder="請輸入您想加入的字詞...&#10;一次最多25個字唷！" class="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition duration-200 text-sm resize-none"></textarea>
                     
                     <button id="btn-submit" onclick="submitWords()" class="w-full bg-gradient-to-r from-cyan-500 to-fuchsia-600 hover:from-cyan-400 hover:to-fuchsia-500 text-white font-bold py-3.5 px-4 rounded-xl transition duration-200 shadow-md hover:shadow-neon-cyan flex items-center justify-center gap-2">
                         <i class="fa-solid fa-paper-plane"></i>
@@ -97,7 +97,7 @@
                         <i class="fa-solid fa-cloud text-slate-400 text-2xl animate-pulse"></i>
                     </div>
                     <h3 class="text-md font-bold text-slate-300 mb-1">文字雲目前空空如也</h3>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-4">請大家掃描或開啟填寫連結，在對話框內輸入任何想法！</p>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-4">請大家踴躍留言！</p>
                 </div>
 
                 <!-- HTML5 Wordcloud Canvas -->
@@ -423,13 +423,12 @@
             submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>正在送出...</span>`;
 
             // Split raw string by spaces or commas (half-width or full-width)
-            const wordsToAdd = rawText
-                .split(/[\s,，、\n]+/)
-                .map(w => w.trim())
-                .filter(w => w.length > 0 && w.length <= 25); // Limit character length for visual clarity
+            //const wordsToAdd = rawText.split(/[\s,，、\n]+/).map(w => w.trim()).filter(w => w.length > 0 && w.length <= 25); // Limit character length for visual clarity
 
-            if (wordsToAdd.length === 0) {
-                showToast("輸入格式錯誤或字詞過長(限制25字內)！", "warning");
+            const wordsToAdd = [rawText];
+            
+            if (rawText.length > 25) {
+                showToast("字詞太長囉！請限制在 25 字以內。", "warning");
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>送出關鍵字</span>`;
                 return;
